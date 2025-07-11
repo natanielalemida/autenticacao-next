@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { signOut } from 'next-auth/react'; // Importa o signOut
 
 type User = {
 	id: string;
@@ -33,6 +34,17 @@ export default function DashboardClient() {
 
 	return (
 		<main className="p-6 mx-auto h-screen bg-gray-100">
+			{/* Botão Sign Out no topo, alinhado à direita */}
+			<div className="flex justify-end mb-4">
+				<button
+					onClick={() => signOut()}
+					className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition"
+					type="button"
+				>
+					Sair
+				</button>
+			</div>
+
 			<motion.h1
 				className="text-3xl font-bold mb-6 text-center"
 				initial={{ opacity: 0, y: -20 }}
