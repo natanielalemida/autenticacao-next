@@ -4,7 +4,7 @@ import { LoginFormData, RegisterFormData } from '../schema/loginSchema';
 export default function useLogin(showError: (msg: string) => void) {
 	const onLogin = async (data: LoginFormData) => {
 		const result = await signIn('credentials', {
-			redirect: false,
+			callbackUrl: '/dashboard',
 			email: data.email,
 			password: data.password,
 			remember: data.remember ? 'true' : 'false',
