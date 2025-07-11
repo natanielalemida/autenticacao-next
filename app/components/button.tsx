@@ -1,15 +1,12 @@
 import React from 'react';
-import { colors } from '../styles/colors';
 
-interface ButtonProps {
-	readonly children: React.ReactNode;
-}
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export function Button({ children }: ButtonProps) {
+export function Button({ children, ...props }: ButtonProps) {
 	return (
 		<button
-			className="w-full p-3 text-white rounded-lg text-sm font-medium"
-			style={{ backgroundColor: colors.primary }}
+			className="w-full bg-[#002F99] text-white py-2 rounded-lg hover:bg-blue-800 transition-colors"
+			{...props}
 		>
 			{children}
 		</button>
