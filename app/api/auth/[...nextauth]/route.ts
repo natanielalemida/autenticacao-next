@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 import { PrismaClient } from '@prisma/client';
 import { compare } from 'bcrypt';
 
@@ -22,10 +23,37 @@ const handler = NextAuth({
 				return { id: user.id, email: user.email };
 			},
 		}),
+		GoogleProvider({
+			clientId: process.env.GOOGLE_CLIENT_ID!,
+			clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+		}),
 	],
+
 	session: {
 		strategy: 'jwt',
 	},
+
+	// 🔽 Aqui você cria o usuário caso ele venha do Google e ainda não exista no banco
+	callbacks: {
+		async signIn({ user, account }) {
+			if (account?.provider === 'google') {
+				const existingUser = await prisma.user.findUnique({
+					where: { email: user.email! },
+				});
+
+				if (!existingUser) {
+					await prisma.user.create({
+						data: {
+							email: user.email!,
+							password: '', // ou null, dependendo do seu schema
+						},
+					});
+				}
+			}
+			return true;
+		},
+	},
+
 	pages: {
 		signIn: '/',
 	},

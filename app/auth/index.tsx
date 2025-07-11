@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import RegisterForm from './registerForm';
 import { LoginForm } from './loginForm';
+import { signIn } from 'next-auth/react';
 
 export default function AuthPage() {
 	const [isRegister, setIsRegister] = useState(false);
@@ -70,7 +71,10 @@ export default function AuthPage() {
 						<hr className="flex-grow border-t" />
 					</div>
 
-					<button className="w-full border border-gray-300 flex items-center justify-center gap-2 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition">
+					<button
+						className="w-full border border-gray-300 flex items-center justify-center gap-2 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 transition"
+						onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+					>
 						<img src="/google-icon-logo.svg" alt="Google" className="h-4" />
 						Entrar com o Google
 					</button>
